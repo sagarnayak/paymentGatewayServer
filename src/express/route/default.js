@@ -4,7 +4,7 @@ const router = express.Router()
 router.get(
     '/',
     (req, res) => {
-        res.send('welcome to chat application.')
+        res.send('welcome to payment gateway application.')
     }
 )
 

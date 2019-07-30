@@ -1,5 +1,6 @@
 const { server } = require('../src/express/init')
 const chalk = require('chalk')
+require('./mongoose/connect')
 
 const port = process.env.PORT || 3000
 
