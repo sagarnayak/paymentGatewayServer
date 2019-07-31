@@ -1,6 +1,7 @@
 const { server } = require('../src/express/init')
 const chalk = require('chalk')
 require('./mongoose/connect')
+require('./razorpay/init')
 
 const port = process.env.PORT || 3000
 
