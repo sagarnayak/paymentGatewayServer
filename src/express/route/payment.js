@@ -6,6 +6,7 @@ const {
     createOrder,
     verifyPayment
 } = require('../../razorpay/init')
+const httpStatus = require('http-status-codes')
 
 router.get(
     '/razorPayKey',
@@ -24,7 +25,9 @@ router.post(
                 !req.body.amount ||
                 !req.body.notes
             )
-                return res.status(400).send(createGenericError('Params missing'))
+                return res
+                    .status(httpStatus.BAD_REQUEST)
+                    .send(createGenericError('Params missing'))
             createOrder(
                 req.body.amount,
                 req.body.notes,
@@ -41,13 +44,17 @@ router.post(
                         res.send(orderToReturn)
                     } else {
                         console.log(err)
-                        res.status(400).send(createGenericError('Payment Error'))
+                        res.
+                            status(httpStatus.BAD_REQUEST)
+                            .send(createGenericError('Payment Error'))
                     }
                 }
             )
         } catch (err) {
             console.log(err)
-            return res.status(400).send(createGenericError('Payment Error'))
+            return res
+                .status(httpStatus.BAD_REQUEST)
+                .send(createGenericError('Payment Error'))
         }
     }
 )
@@ -61,7 +68,9 @@ router.post(
             !req.body.paymentId ||
             !req.body.signature
         )
-            return res.status(400).send(createGenericError('Payment can not be verified'))
+            return res
+                .status(httpStatus.BAD_REQUEST)
+                .send(createGenericError('Payment can not be verified'))
         try {
             verifyPayment(
                 req.body.orderId,
@@ -71,13 +80,17 @@ router.post(
                     if (val == 'success') {
                         res.send('veified payment')
                     } else {
-                        res.status(400).send(createGenericError('Payment verification failed'))
+                        res
+                            .status(httpStatus.BAD_REQUEST)
+                            .send(createGenericError('Payment verification failed'))
                     }
                 }
             )
         } catch (err) {
             console.log(err)
-            res.status(400).send(createGenericError('Payment verification failed'))
+            res
+                .status(httpStatus.BAD_REQUEST)
+                .send(createGenericError('Payment verification failed'))
         }
     }
 )
